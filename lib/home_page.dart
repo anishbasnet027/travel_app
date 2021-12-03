@@ -23,7 +23,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "d.jpg": "Kori Trek",
     "Mardi.jpg": "Mardi Trek",
     "Tilicho.jpg": "Tilicho Trek",
-    "mustang.jpg": "Gosainkunda Trek",
+    "Mardi.jpg": "Gosainkunda Trek",
+  };
+
+  var hiking_images = {
+    "bethanchowk.jpg": "Bethanchowk",
+    "chandragiri.jpg": "Chandragiri",
+    "shivapuri.jpg": "Shivapuri",
+    "pilotbabta.jpg": "Pilot Baba",
+    "d.jpg":"a"
   };
 
   @override
@@ -35,28 +43,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 70, left: 20),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.menu,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                Expanded(child: Container()),
-                Container(
-                  margin: const EdgeInsets.only(right: 20),
-                  width: 50,
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
+            child: Row(),
           ),
-          SizedBox(
-            height: 30,
-          ),
+
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: AppLargeText(text: "Explore Nepal"),
@@ -66,33 +55,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           //tabbar
           Container(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                unselectedLabelColor: Colors.grey,
-                labelColor: Colors.black,
-                controller: _tabController,
-                isScrollable: true,
-                indicator: CircleTabIndicator(color: Colors.black, radius: 4),
-                tabs: [
-                  Tab(
-                    text: "Trekking",
-                  ),
-                  Tab(
-                    text: "Hiking",
-                  ),
-                  Tab(
-                    text: "Emotions",
-                  )
-                ],
-              ),
+            padding: const EdgeInsets.only(left: 30),
+            child: AppText(
+              color: Colors.black,
+              text: "Trekking",
             ),
           ),
           Container(
             padding: const EdgeInsets.only(left: 20),
-            height: 300,
+            height: 270,
             width: double.infinity,
             child: TabBarView(controller: _tabController, children: [
               ListView.builder(
@@ -109,7 +80,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       child: Container(
                         margin: const EdgeInsets.only(right: 15, top: 10),
                         width: 200,
-                        height: 300,
+                        height: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
@@ -126,52 +97,55 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ]),
           ),
           SizedBox(height: 20),
-          Container(
-            margin: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              children: [
-                AppText(
-                  text: "See all",
-                  color: Colors.black,
-                )
-              ],
-            ),
-          ),
+
           SizedBox(
             height: 10,
           ),
-//
+          Container(
+            padding: const EdgeInsets.only(left: 30),
+            child: AppText(
+              color: Colors.black,
+              text: "Hiking",
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 20),
+            height: 270,
+            width: double.infinity,
+            child: TabBarView(controller: _tabController, children: [
+              ListView.builder(
+                  itemCount: 5,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage()));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 15, top: 10),
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: AssetImage("images/" +
+                                  hiking_images.keys.elementAt(index)),
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                    );
+                  }),
+              Text("In Progress"),
+              Text("In Progress")
+            ]),
+          ),
+          SizedBox(height: 20),
         ],
       ),
     );
-  }
-}
-
-class CircleTabIndicator extends Decoration {
-  final Color color;
-  double radius;
-
-  CircleTabIndicator({required this.color, required this.radius});
-  @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    // TODO: implement createBoxPainter
-    return _CirclePainter(color: color, radius: radius);
-  }
-}
-
-class _CirclePainter extends BoxPainter {
-  final Color color;
-  double radius;
-
-  _CirclePainter({required this.color, required this.radius});
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    Paint _paint = Paint();
-    _paint.color = color;
-    _paint.isAntiAlias = true;
-    final Offset circleOffset = Offset(
-        configuration.size!.width / 2 - radius / 2,
-        configuration.size!.height - radius);
-    canvas.drawCircle(offset + circleOffset, radius, _paint);
   }
 }
